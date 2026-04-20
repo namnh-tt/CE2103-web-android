@@ -1,0 +1,50 @@
+spring:
+  profiles:
+    active: prod
+server:
+  port: 8080
+mqtt:
+  #broker: ${MQTT_BROKER:tcp://mqtt:188
+  broker: ${MQTT_BROKER:ssl://faa31c0d56bc42db900360a7b9de8c91.s1.eu.hivemq.cloud:8883}
+  username: ${MQTT_USERNAME:user_esp32}
+  password: ${MQTT_PASSWORD:Password123}
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://localhost:3306/fire
+    password: nam0827770132
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: 'true'
+
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: fire_detect_user
+    url: jdbc:postgresql://dpg-d74d64n5r7bs73cr9asg-a.singapore-postgres.render.com:5432/fire_detect
+    password: n8y0DI3MkEfhUUgiQfS30tsSxNuaCWQA
+    #url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/fire_detect}
+    #username: ${SPRING_DATASOURCE_USERNAME:fire_detect_user}
+    #password: ${SPRING_DATASOURCE_PASSWORD:123456}
+    hikari:
+      connection-timeout: 30000
+      initialization-fail-timeout: 60000
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: 'true'
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
